@@ -1,0 +1,10 @@
+const Redis = require('ioredis');
+
+const redis = new Redis(process.env.REDIS_URL, {
+  retryStrategy: (times) => Math.min(times * 500, 3000),
+});
+
+redis.on('connect', () => console.log('Redis connected'));
+redis.on('error', (err) => console.error('Redis error:', err.message));
+
+module.exports = redis;
